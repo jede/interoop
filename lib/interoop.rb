@@ -1,4 +1,5 @@
 require 'interoop/actor'
+require 'interoop/communication_need'
 
 class Interoop
   def initialize
