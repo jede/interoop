@@ -1,0 +1,2 @@
+class Interoop < Thor
+end
