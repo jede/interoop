@@ -1,6 +1,10 @@
+$: << "./"
+$: << "./lib/"
+require "init"
+
 class Interoop < Thor
-  desc "Run an instance of the framework"
-  def run(path)
-    interoop = Interoop.load(path)
+  desc "load [PATH]", "Load and run a file with interoop statements"
+  def load(path)
+    ::Interoop.load(path)
   end
 end
