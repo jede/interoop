@@ -6,17 +6,19 @@ describe Interoop do
     interoop.should_not be_nil
   end
   
-  it "can add Actors" do
+  it "can analyze communication needs" do
     interoop = Interoop.new
-    system_a = Interoop::Actor.new("System A")
-    interoop.add system_a
+    interoop.analyze new_communication_need
   end
   
-  it "increases count when adding an Actor" do
+  it "can visualize actors" do
     interoop = Interoop.new
-    system_a = Interoop::Actor.new("System A")
-    interoop.actor_count.should eql(0)
-    interoop.add system_a
-    interoop.actor_count.should eql(1)
+    interoop.visualize new_actor, new_actor
+  end
+  
+  
+  it "loads a file" do
+    interoop = Interoop.load(File.expand_path(File.dirname(__FILE__) + '/fixtures/test_case.rb'))
+    interoop.should_not be_nil
   end
 end
