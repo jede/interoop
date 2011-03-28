@@ -1,6 +1,9 @@
 require './init.rb'
 require 'rspec'
 
+RSpec.configure do |config|
+  config.mock_with :rr
+end
 def new_actor(options = {})
   options = {:name => "Actor", :identifier => Interoop::Address.new(), :formats => [new_language]}.merge(options)
   Interoop::Actor.new(options)
