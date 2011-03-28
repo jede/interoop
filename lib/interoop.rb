@@ -35,7 +35,7 @@ class Interoop
   
   def generate_graph(actors)
     require 'graphviz'
-    graph = Interoop::Graph.new( :G, :type => :graph, :use => "sfdp" )
+    graph = Interoop::Graph.new( :G, :type => :graph, :use => "neato" )
     graph[:overlap] = false
     graph[:rankdir] = "LR"
     
