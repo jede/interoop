@@ -7,6 +7,7 @@ class Interoop
     
     def initialize(params = {})
       super
+      @fixed = params[:fixed]
       @addressing_language = params[:addressing_language]
       @actors = params[:actors] || []
       update_actors!
@@ -17,6 +18,10 @@ class Interoop
         super
         graph.add_edge(self, addressing_language) unless fixed || addressing_language.nil?
       end
+    end
+    
+    def attributes
+      super.merge(:fixed => fixed)
     end
     
     protected
