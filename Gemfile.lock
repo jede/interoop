@@ -12,6 +12,7 @@ GEM
     gherkin (2.3.3)
       json (~> 1.4.6)
     json (1.4.6)
+    rr (1.0.2)
     rspec (2.5.0)
       rspec-core (~> 2.5.0)
       rspec-expectations (~> 2.5.0)
@@ -29,6 +30,7 @@ PLATFORMS
 
 DEPENDENCIES
   cucumber
+  rr
   rspec
   ruby-graphviz
   thor
