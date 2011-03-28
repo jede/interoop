@@ -29,4 +29,14 @@ describe Interoop::CommunicationNeed do
     @message_passing_system = new_message_passing_system(:actors => [@actor_a, @actor_b])
     @communication_need.path_exists?.should eql(true)
   end
+  
+  it "creates nodes in a graph" do
+    @graph = Interoop::Graph.new(:G)
+    
+    mock(@graph).add_node(@communication_need.reference_language).any_times
+    mock(@graph).add_node(@communication_need).any_times
+    mock(@graph).add_edge.with_any_args
+    
+    @communication_need.create_nodes_in(@graph)
+  end
 end

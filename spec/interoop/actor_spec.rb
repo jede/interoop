@@ -55,4 +55,78 @@ describe Interoop::Actor do
     @actor.reaches?(other_actor, :without_using => [message_passing_system]).should eql(false)
   end
   
+
+  describe "graphing" do
+    before :each do
+      @graph = Interoop::Graph.new(:G)
+    end
+    
+    describe "with mock" do
+      before :each do
+        
+        mock.proxy(@graph).add_node(@actor).any_times
+        
+        mock.proxy(@graph).add_node(@actor.identifier).any_times
+        mock.proxy(@graph).add_edge(@actor, @actor.identifier)
+        
+        @actor.formats.each do |lang|
+          mock.proxy(@graph).add_node(lang).any_times
+          mock.proxy(@graph).add_edge(@actor, lang)
+        end
+      end
+      
+      it "creates nodes in a graph" do
+        @actor.create_nodes_in(@graph)
+      end
+      
+      it "creates nodes for its messge passing systems and edges in a graph" do
+        message_passing_system = new_message_passing_system(:actors => [@actor])
+        
+        mock(message_passing_system).create_nodes_in(@graph)
+        mock(@graph).add_edge.with_any_args
+  
+        @actor.create_nodes_in(@graph)
+      end
+      
+      it "creates nodes for its communication needs" do
+        communication_need = new_communication_need(@actor)
+        
+        mock(communication_need).create_nodes_in(@graph)
+        mock(@graph).add_edge.with_any_args
+  
+        @actor.create_nodes_in(@graph)
+      end
+      
+      it "creates nodes for its language translations" do
+        language_translation = new_language_translation(:actor => @actor)
+        
+        mock(language_translation).create_nodes_in(@graph)
+        mock(@graph).add_edge.with_any_args
+  
+        @actor.create_nodes_in(@graph)
+      end
+      
+      it "creates nodes for its known addresses" do
+        @actor.known_addresses << new_address
+        
+        @actor.known_addresses.each do |address|
+          mock(@graph).add_edge(@actor, address)
+        end
+  
+        @actor.create_nodes_in(@graph)
+      end
+      
+    end
+    
+    it "only adds a message passing system once" do
+      other_actor = new_actor(:name => "Other actor")
+      message_passing_system = new_message_passing_system(:actors => [@actor, other_actor])
+
+      @actor.create_nodes_in(@graph)
+      other_actor.create_nodes_in(@graph)
+
+      @graph.node_map.count.should eql(@graph.node_count)
+    end
+  end
+  
 end

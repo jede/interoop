@@ -4,7 +4,7 @@ class Interoop
     
     def initialize(params = {})
       super
-      @communication_needs = []
+      @communication_needs = params[:communication_needs] || []
     end
   end
 end

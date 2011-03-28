@@ -11,6 +11,10 @@ describe Interoop::MessagePassingSystem do
     @message_passing_system.actors.should_not be_empty
   end
   
+  it "has a name" do
+    @message_passing_system.name.should_not be_empty
+  end
+  
   it "can receive distorts_message, drops_message and is_available" do
     @message_passing_system.distorts_message = 0.5
     @message_passing_system.drops_message = 0.5
@@ -44,4 +48,29 @@ describe Interoop::MessagePassingSystem do
     @message_passing_system.reaches?(other_actor, :without_using => [other_message_passing_system]).should eql(false)
   end
   
+  describe "graph behaviour" do
+     before :each do
+       require 'graphviz'
+       @graph = Interoop::Graph.new(:G)
+       
+       mock.proxy(@graph).add_node(@message_passing_system).any_times
+       
+       mock.proxy(@graph).add_node(@message_passing_system.addressing_language)
+       mock.proxy(@graph).add_edge(@message_passing_system, @message_passing_system.addressing_language)
+       
+       @message_passing_system.formats.each do |lang|
+         mock.proxy(@graph).add_node(lang)
+         mock.proxy(@graph).add_edge(@message_passing_system, lang)
+       end
+     end
+
+     it "creates nodes in a graph" do
+       @message_passing_system.create_nodes_in(@graph)
+     end
+     
+     it "only adds itself once" do
+       @message_passing_system.create_nodes_in(@graph)
+       @message_passing_system.create_nodes_in(@graph)
+     end
+   end
 end

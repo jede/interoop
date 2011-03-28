@@ -5,5 +5,9 @@ class Interoop
     def initialize(params = {})
       @actor = params[:actor]
     end
+    
+    def to_s
+      "Unique address"
+    end
   end
 end
