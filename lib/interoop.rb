@@ -5,43 +5,44 @@ require 'interoop/language'
 require 'interoop/language_translation'
 require 'interoop/reference_language'
 require 'interoop/address'
+require 'interoop/graph'
 
 class Interoop
-  def initialize
-    @actors = []
+  attr_reader :name
+  
+  def initialize(name)
+    @name = name
     yield self, binding if block_given?
   end
   
-  def analyze(communication_need)
-    
-  end
-  
   def visualize(*actors)
-    actors.each do |actor|
-      require 'graphviz'
-
-       # Create a new graph
-       g = GraphViz.new( :G, :type => :digraph )
-
-       # Create two nodes
-       hello = g.add_node( "Hello" )
-       world = g.add_node( "World" )
-
-       # Create an edge between the two nodes
-       g.add_edge( hello, world )
-
-       # Generate output image
-       g.output( :png => "hello_world.png" )
-       
-       exec "open hello_world.png"
-    end
+    graph = generate_graph(actors)
+    
+    graph.output( :pdf => "#{name}.pdf" )    
+    graph.output( :dot => "#{name}.dot" )    
+    
+    exec "open #{name}.pdf"
   end
   
   def self.load(path)
-    Interoop.new do |interoop, binding|
+    /(.*\/)?(?<name>\w+).rb/ =~ path # path = "workbench/test.rb" => name = "test"
+    Interoop.new(name) do |interoop, binding|
       File.open(path) do |f|
          eval f.readlines.join(' '), binding
       end
     end
+  end
+  
+  def generate_graph(actors)
+    require 'graphviz'
+    graph = Interoop::Graph.new( :G, :type => :graph, :use => "sfdp" )
+    graph[:overlap] = false
+    graph[:rankdir] = "LR"
+    
+    actors.each do |actor|
+      actor.create_nodes_in(graph)
+    end
+    
+    return graph
   end
 end
