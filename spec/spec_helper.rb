@@ -31,8 +31,9 @@ def new_language
   Interoop::Language.new(:name => "Language nr #{NumberGenerator.next}")
 end
 
-def new_language_translation
-  Interoop::LanguageTranslation.new(:actor => new_actor, :first_language => new_language, :second_language => new_language)
+def new_language_translation(options)
+  options = {:actor => new_actor, :from => new_language, :to => new_language}.merge(options)
+  Interoop::LanguageTranslation.new(options)
 end
 
 def new_reference_language
