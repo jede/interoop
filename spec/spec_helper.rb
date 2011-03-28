@@ -4,8 +4,17 @@ require 'rspec'
 RSpec.configure do |config|
   config.mock_with :rr
 end
+
+class NumberGenerator
+  @@number = 1
+  
+  def self.next
+    @@number += 1
+  end
+end
+
 def new_actor(options = {})
-  options = {:name => "Actor", :identifier => Interoop::Address.new(), :formats => [new_language]}.merge(options)
+  options = {:name => "Actor nr #{NumberGenerator.next}", :formats => [new_language]}.merge(options)
   Interoop::Actor.new(options)
 end
 
@@ -14,12 +23,12 @@ def new_address
 end
 
 def new_message_passing_system(options = {})
-  options = {:name => "Router", :addressing_language => new_language, :actors => [new_actor]}.merge(options)
+  options = {:name => "Router nr #{NumberGenerator.next}", :addressing_language => new_language, :actors => [new_actor], :formats => [new_language]}.merge(options)
   Interoop::MessagePassingSystem.new(options)
 end
 
 def new_language
-  Interoop::Language.new(:name => "XML")
+  Interoop::Language.new(:name => "Language nr #{NumberGenerator.next}")
 end
 
 def new_language_translation
@@ -27,7 +36,7 @@ def new_language_translation
 end
 
 def new_reference_language
-  Interoop::ReferenceLanguage.new(:name => "DHL order numbers?")
+  Interoop::ReferenceLanguage.new(:name => "Reference Language nr #{NumberGenerator.next}")
 end
 
 def new_communication_need(*args)
