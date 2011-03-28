@@ -1,1 +1,2 @@
 workbench/*
+./*.(pdf|png|eps|svg|jpeg|vml|dot)
