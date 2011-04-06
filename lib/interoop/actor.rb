@@ -7,19 +7,24 @@ class Interoop
     
     def initialize(params = {})
       super
-      @identifier = params[:identifier] || Interoop::Address.new()
+      @identifier ||= Interoop::Address.new
       @identifier.actor = self if @identifier
-      @known_addresses = params[:known_addresses] || []
       
-      @communication_needs = params[:communication_needs] || []
-      @communication_mediums = params[:communication_mediums] || []
-      @language_translations = params[:language_translations] || []
+      @known_addresses ||= []
+      
+      @communication_needs ||= []
+      @communication_mediums ||= []
+      @language_translations ||= []
     end
     
     def create_nodes_in(graph)
       super
       graph.add_edge(self, identifier)
       create_nodes_for_relations(graph, :communication_needs, :communication_mediums, :language_translations, :known_addresses)
+    end
+    
+    def neighbors
+      communication_mediums
     end
     
     protected
@@ -33,8 +38,5 @@ class Interoop
       end
     end
     
-    def neighbors
-      communication_mediums
-    end
   end
 end

@@ -13,8 +13,16 @@ class NumberGenerator
   end
 end
 
+def abstract_actor_options
+  {
+    :distorts_message => 0.0, 
+    :drops_message => 0.0, 
+    :is_available => 1.0
+  }
+end
+
 def new_actor(options = {})
-  options = {:name => "Actor nr #{NumberGenerator.next}", :formats => [new_language]}.merge(options)
+  options = {:name => "Actor nr #{NumberGenerator.next}", :formats => [new_language]}.merge(abstract_actor_options).merge(options)
   Interoop::Actor.new(options)
 end
 
@@ -23,7 +31,7 @@ def new_address
 end
 
 def new_message_passing_system(options = {})
-  options = {:name => "Router nr #{NumberGenerator.next}", :addressing_language => new_language, :actors => [new_actor], :formats => [new_language]}.merge(options)
+  options = {:name => "Router nr #{NumberGenerator.next}", :addressing_language => new_language, :actors => [new_actor], :formats => [new_language]}.merge(abstract_actor_options).merge(options)
   Interoop::MessagePassingSystem.new(options)
 end
 
@@ -32,7 +40,7 @@ def new_language
 end
 
 def new_language_translation(options)
-  options = {:actor => new_actor, :from => new_language, :to => new_language}.merge(options)
+  options = {:actor => new_actor, :from => new_language, :to => new_language, :correct => 1.0}.merge(options)
   Interoop::LanguageTranslation.new(options)
 end
 

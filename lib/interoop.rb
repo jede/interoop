@@ -1,3 +1,4 @@
+require 'interoop/object'
 require 'interoop/actor'
 require 'interoop/communication_need'
 require 'interoop/message_passing_system'
@@ -12,14 +13,19 @@ class Interoop
   
   def initialize(name)
     @name = name
+    @visualize_actors = []
     yield self, binding if block_given?
   end
   
   def visualize(*actors)
-    graph = generate_graph(actors)
+    @visualize_actors += actors if actors.is_a?(Array)
+  end
+  
+  def visualize!
+    graph = generate_graph(@visualize_actors)
     
-    graph.output( :pdf => "#{name}.pdf" )    
-    graph.output( :dot => "#{name}.dot" )    
+    graph.output( :pdf => "#{name}.pdf" )
+    graph.output( :dot => "#{name}.dot" )
     
     exec "open #{name}.pdf"
   end

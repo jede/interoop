@@ -1,10 +1,6 @@
 class Interoop
-  class Address
+  class Address < Object
     attr_accessor :actor
-    
-    def initialize(params = {})
-      @actor = params[:actor]
-    end
     
     def to_s
       "Unique address"

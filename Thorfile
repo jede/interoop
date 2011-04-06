@@ -3,8 +3,8 @@ $: << "./lib/"
 require "init"
 
 class Interoop < Thor
-  desc "load [PATH]", "Load and run a file with interoop statements"
-  def load(path)
-    ::Interoop.load(path)
+  desc "visualize [PATH]", "Load and run a file with interoop statements"
+  def visualize(path)
+    ::Interoop.load(path).visualize!
   end
 end

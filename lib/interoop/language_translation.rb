@@ -1,16 +1,14 @@
 class Interoop
-  class LanguageTranslation
-    attr_accessor :to, :from, :actor
+  class LanguageTranslation < Object
+    attr_accessor :to, :from, :actor, :correct
     
     def to_s
       "#{from} to #{to}"
     end
     
     def initialize(params = {})
-      @actor = params[:actor]
+      super
       @actor.language_translations << self if @actor
-      @to = params[:to]
-      @from = params[:from]
     end
     
     def create_nodes_in(graph)

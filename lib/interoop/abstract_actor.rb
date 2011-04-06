@@ -1,28 +1,27 @@
 class Interoop
-  class AbstractActor
-    attr_accessor :distorts_message, :drops_message, :is_available, :formats, :name
-    alias_method :to_s, :name
+  class AbstractActor < Object
+    attr_accessor :distorts_message, :drops_message, :is_available, :formats
     
     def initialize(params = {})
-      @name = params[:name]
-      @formats = params[:formats] || []
-      @distorts_message = params[:distorts_message].to_f
-      @drops_message = params[:drops_message].to_f
-      @is_available = params[:is_available].to_f
+      super
+      @formats ||= []
+      @distorts_message ||= 0.0
+      @drops_message ||= 0.0
+      @is_available ||= 1.0
     end
     
-    def reaches?(other, options = {})
-      return true if other == self
+    def reaches(other, options = {})
+      return 1.0 if other == self
       
       without_using = options[:without_using] || []
       without_using << self
       
       hit = neighbors.find do |neighbor|
         next if without_using.include?(neighbor)
-        neighbor.reaches?(other, :without_using => without_using)
+        neighbor.reaches(other, :without_using => without_using) == 1.0
       end
       
-      return !hit.nil?
+      return (hit.nil? ? 0.0 : 1.0)
     end
     
     def attributes

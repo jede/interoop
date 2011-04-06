@@ -16,9 +16,13 @@ describe Interoop::Graph do
     @graph.has_node?(actor).should eql(true)
   end
   
-  it "shall use attributes if there is any" do
+  it "shall use attributes if there are any" do
     actor = new_actor
     mock.proxy(actor).attributes
     @graph.add_node(actor)
+  end
+  
+  it "can compile a valid label" do
+    @graph.compile_label({a: "b", b: "c"}).should eql(" | a: b | b: c")
   end
 end

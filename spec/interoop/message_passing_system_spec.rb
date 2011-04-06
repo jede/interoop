@@ -21,8 +21,19 @@ describe Interoop::MessagePassingSystem do
     @message_passing_system.is_available = 0.5
   end
   
+  it "sets distorts_message, drops_message and is_available to default values" do
+    other_message_passing_system = Interoop::MessagePassingSystem.new
+    other_message_passing_system.distorts_message.should == 0.0
+    other_message_passing_system.drops_message.should == 0.0
+    other_message_passing_system.is_available.should == 1.0
+  end
+  
   it "can be fixed" do
     @message_passing_system.fixed = true
+  end
+  
+  it "is not fixed by default" do
+    Interoop::MessagePassingSystem.new.fixed.should == false
   end
   
   it "has formats" do
@@ -33,19 +44,19 @@ describe Interoop::MessagePassingSystem do
     @message_passing_system.addressing_language.should_not be_nil
   end
   
-  it "can calculate if it reaches an actor" do
-    @message_passing_system.reaches?(@actor).should eql(true)
+  it "can calculate the probability that it reaches an actor" do
+    @message_passing_system.reaches(@actor).should eql(1.0)
     
     other_actor = new_actor
-    @message_passing_system.reaches?(other_actor).should eql(false)
+    @message_passing_system.reaches(other_actor).should eql(0.0)
   end
   
-  it "can calculate if it reaches another actor, without using some actor or message passing system" do
+  it "can calculate the probability that it reaches another actor, without using some actor or message passing system" do
     other_actor = new_actor
     other_message_passing_system = new_message_passing_system(:actors => [other_actor, @actor])
 
-    @message_passing_system.reaches?(other_actor).should eql(true)
-    @message_passing_system.reaches?(other_actor, :without_using => [other_message_passing_system]).should eql(false)
+    @message_passing_system.reaches(other_actor).should eql(1.0)
+    @message_passing_system.reaches(other_actor, :without_using => [other_message_passing_system]).should eql(0.0)
   end
   
   describe "graph behaviour" do

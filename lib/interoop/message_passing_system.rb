@@ -7,9 +7,10 @@ class Interoop
     
     def initialize(params = {})
       super
-      @fixed = params[:fixed]
-      @addressing_language = params[:addressing_language]
-      @actors = params[:actors] || []
+      
+      @fixed = false unless @fixed
+      @actors ||= []
+      
       update_actors!
     end
     
@@ -24,11 +25,11 @@ class Interoop
       super.merge(:fixed => fixed)
     end
     
-    protected
-    
     def neighbors
       actors
     end
+    
+    protected
     
     def update_actors!
       actors.each {|actor| actor.communication_mediums << self}
