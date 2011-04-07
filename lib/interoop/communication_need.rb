@@ -3,7 +3,14 @@ class Interoop
     attr_accessor :actors, :reference_language, :addressing_needs
     
     def to_s
-      actors.join(' ')
+      unless name
+        if actors.count < 3
+          self.name = actors.join(',')
+        else
+          self.name = "#{actors.count} actors"
+        end
+      end
+      name
     end
     
     def initialize(params = {})

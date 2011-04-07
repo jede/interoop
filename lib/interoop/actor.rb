@@ -27,6 +27,22 @@ class Interoop
       communication_mediums
     end
     
+    def translates(options)
+      LanguageTranslation.new(options.merge(:actor => self))
+    end
+    
+    def sends(language)
+      proxy = ChainProxy.new(self)
+      proxy.sends(language)
+      proxy
+    end
+    
+    def needs_to_communicate_with(actor_or_actors)
+      actors = actor_or_actors.is_a?(Array) ? actor_or_actors : [actor_or_actors]
+      actors << self
+      CommunicationNeed.new(:actors => actors)
+    end
+    
     protected
     
     def create_nodes_for_relations(graph, *relations)

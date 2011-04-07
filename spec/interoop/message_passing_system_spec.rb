@@ -11,6 +11,19 @@ describe Interoop::MessagePassingSystem do
     @message_passing_system.actors.should_not be_empty
   end
   
+  it "can add an actor" do
+    other_actor = new_actor
+    @message_passing_system.add_actor(other_actor)
+    @message_passing_system.actors.should include(@actor)
+    other_actor.communication_mediums.should include(@message_passing_system)
+  end
+  
+  it "only is added once on an actor" do
+    actors = @message_passing_system.actors
+    @message_passing_system.add_actor(@actor)
+    @message_passing_system.actors.should eql(actors)
+  end
+  
   it "has a name" do
     @message_passing_system.name.should_not be_empty
   end
@@ -38,6 +51,16 @@ describe Interoop::MessagePassingSystem do
   
   it "has formats" do
     @message_passing_system.formats.should be_an(Enumerable)
+  end
+  
+  it "adds formats only once" do
+    lang = new_language    
+    count = @message_passing_system.formats.count
+    
+    @message_passing_system.add_format(lang)
+    @message_passing_system.add_format(lang)
+    
+    @message_passing_system.formats.count.should eql(count + 1)
   end
   
   it "has an addressing language" do

@@ -29,10 +29,15 @@ class Interoop
       actors
     end
     
+    def add_actor(actor)
+      self.actors << actor
+      update_actors!
+    end
+
     protected
     
     def update_actors!
-      actors.each {|actor| actor.communication_mediums << self}
+      actors.each {|actor| actor.communication_mediums << self unless actor.communication_mediums.include?(self)}
     end
   end
 end

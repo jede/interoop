@@ -61,7 +61,7 @@ describe Interoop::CommunicationNeed do
   end
   
   describe "common language" do
-    xit "can calculate that a common language exists between the actors" do
+    it "can calculate that a common language exists between the actors" do
       message_passing_system = new_message_passing_system(:actors => [@actor_a, @actor_b])
       @communication_need.common_language_exists.should == 0.0
       
@@ -69,6 +69,8 @@ describe Interoop::CommunicationNeed do
       @actor_a.formats << common_lang
       @actor_b.formats << common_lang
       message_passing_system.formats << common_lang
+      
+      @communication_need.common_language_exists.should == 1.0
     end
   end
 end

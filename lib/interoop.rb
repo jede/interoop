@@ -1,4 +1,5 @@
 require 'interoop/object'
+require 'interoop/chain_proxy'
 require 'interoop/actor'
 require 'interoop/communication_need'
 require 'interoop/message_passing_system'

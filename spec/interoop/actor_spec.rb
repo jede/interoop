@@ -31,6 +31,16 @@ describe Interoop::Actor do
     @actor.formats.should_not be_empty
   end
   
+  it "adds formats only once" do
+    lang = new_language    
+    count = @actor.formats.count
+    
+    @actor.add_format(lang)
+    @actor.add_format(lang)
+    
+    @actor.formats.count.should eql(count + 1)
+  end
+  
   it "has language translations" do
     @actor.language_translations.should be_an(Enumerable)
   end
@@ -133,6 +143,49 @@ describe Interoop::Actor do
       other_actor.create_nodes_in(@graph)
 
       @graph.node_map.count.should eql(@graph.node_count)
+    end
+  end
+  
+  describe "shorthand dsl" do
+    it "can create translation with 'translates'" do
+      lang1 = new_language
+      lang2 = new_language
+      
+      @actor.translates(from: lang1, to: lang2)
+      trans = @actor.language_translations.last
+      trans.from.should eql(lang1)
+      trans.to.should eql(lang2)
+    end
+    
+    it "can create a format with 'sends'" do
+      lang = new_language
+      @actor.sends(lang)
+      @actor.formats.should include(lang)
+    end
+    
+    it "can chain 'sends' with 'through' to set up a relation to a message passing system" do
+      language = new_language
+      message_passing_system = new_message_passing_system
+      
+      @actor.sends(language).through(message_passing_system)
+      message_passing_system.actors.should include(@actor)
+      message_passing_system.formats.should include(language)
+    end
+    
+    it "can chain 'sends', 'through' and 'to' in order to set up a relation to another actor" do
+      language = new_language
+      message_passing_system = new_message_passing_system
+      other_actor = new_actor
+      
+      @actor.sends(language).through(message_passing_system).to other_actor
+      message_passing_system.actors.should include(other_actor)
+      other_actor.formats.should include(language)
+    end
+    
+    it "sets up a communication need" do
+      other_actor = new_actor
+      @actor.needs_to_communicate_with(other_actor)
+      @actor.communication_needs.last.actors.should include(other_actor)
     end
   end
   

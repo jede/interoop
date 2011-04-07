@@ -10,6 +10,10 @@ class Interoop
       @is_available ||= 1.0
     end
     
+    def add_format(language)
+      self.formats << language unless formats.include?(language)
+    end
+    
     def reaches(other, options = {})
       return 1.0 if other == self
       
