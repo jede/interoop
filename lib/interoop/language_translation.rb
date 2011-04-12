@@ -15,5 +15,14 @@ class Interoop
       graph.add_edge(self, @to)
       graph.add_edge(self, @from)
     end
+    
+    def translates_to(language)
+      if language == from
+        to
+      elsif language == to
+        from
+      end
+    end
+    
   end
 end

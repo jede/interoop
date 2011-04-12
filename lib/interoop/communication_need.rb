@@ -1,6 +1,6 @@
 class Interoop
   class CommunicationNeed < Object
-    attr_accessor :actors, :reference_language, :addressing_needs
+    attr_accessor :subject, :actors, :reference_language, :addressing_needs
     
     def to_s
       unless name
@@ -20,45 +20,44 @@ class Interoop
     end
     
     def path_exists
-      reference_actor = actors.first
-      actors.reject{|a| a == reference_actor}.reduce(0.0) do |memo, actor|
-        max(memo, reference_actor.reaches(actor))
+      actors.reduce(0.0) do |memo, actor|
+        max(memo, subject.reaches(actor))
       end
     end
     
     def path_available
-      start_actor = actors.first
-
-      available = {}
-      available[start_actor] = start_actor.is_available
-      actors_que = [start_actor]
-      visited = []
-      
-      while actor = actors_que.pop
-        visited << actor
-        
-        actor.neighbors.each do |neighbor|
-          actors_que << neighbor unless visited.include?(neighbor)
-          available[neighbor] = max(available[neighbor].to_f, available[actor] * neighbor.is_available)
-        end
-        
-        actors_que.sort_by!{|a| a.is_available}.reverse!
-      end
-      
-      other_actors = actors.reject{|a| a == start_actor}
-      least_available_actor = other_actors.min {|actor| available[actor] }
-      
-      return available[least_available_actor]
+      all_of actors.map{|a| subject.path_is_available_to(a)}
+    end
+    
+    def drops_message
+      one_of actors.map { |a| subject.drops_message_to(a) }
+    end
+    
+    def syntactic_distortion
+      one_of actors.map { |a| subject.distorts_message_to(a) }
     end
     
     def common_language_exists
-      
+      all_of actors.map{|a| subject.common_languages_with(a).empty? ? 0.0 : 1.0}
+    end
+    
+    def language_chain_exists
+      all_of actors.map{|a| subject.common_languages_by_chain_with(a).empty? ? 0.0 : 1.0}
+    end
+    
+    def semantically_correct
+      all_of actors.map { |a| subject.semantically_correct_message_to(a) }
     end
     
     def attributes
       {
-        :path_exists => path_exists,
-        :path_available => path_available
+        path_exists: path_exists,
+        path_available: path_available,
+        drops_message: drops_message,
+        syntactic_distortion: syntactic_distortion,
+        common_language_exists: common_language_exists,
+        language_chain_exists: language_chain_exists,
+        semantically_correct: semantically_correct
       }
     end
     
@@ -68,11 +67,8 @@ class Interoop
     
     protected
     
-    def max(a, b)
-      a > b ? a : b
-    end
-    
     def update_actors!
+      subject.communication_needs << self
       actors.each {|actor| actor.communication_needs << self}
     end
   end

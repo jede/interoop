@@ -72,6 +72,17 @@ describe Interoop::Actor do
     @actor.reaches(other_actor, :without_using => [message_passing_system]).should eql(0.0)
   end
   
+  it "calcualtes the most avalible path to another actor" do
+    other_actor = new_actor
+    
+    @actor.most_available_path_to(other_actor).should eql([])
+    message_passing_system = new_message_passing_system(:actors => [@actor, other_actor], :is_available => 0.8)
+    @actor.most_available_path_to(other_actor).should eql([@actor, message_passing_system, other_actor])
+    
+    other_message_passing_system = new_message_passing_system(:actors => [@actor, other_actor], :is_available => 0.9)
+    @actor.most_available_path_to(other_actor).should eql([@actor, other_message_passing_system, other_actor])
+    
+  end
 
   describe "graphing" do
     before :each do

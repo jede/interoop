@@ -50,5 +50,6 @@ end
 
 def new_communication_need(*args)
   args = [new_actor, new_actor] if args.empty?
-  Interoop::CommunicationNeed.new(:actors => args, :reference_language => new_reference_language)
+  subject = args.shift
+  Interoop::CommunicationNeed.new(:subject => subject, :actors => args, :reference_language => new_reference_language)
 end
