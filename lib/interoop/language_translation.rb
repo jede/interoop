@@ -8,6 +8,7 @@ class Interoop
     
     def initialize(params = {})
       super
+      @correct ||= 1.0
       @actor.language_translations << self if @actor
     end
     

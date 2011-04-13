@@ -198,6 +198,12 @@ describe Interoop::Actor do
       @actor.needs_to_communicate_with(other_actor)
       @actor.communication_needs.last.actors.should include(other_actor)
     end
+    
+    it "adds known addresses" do
+      other_actor = new_actor
+      @actor.knows_address_to other_actor
+      @actor.known_addresses.should include(other_actor.identifier)
+    end
   end
   
 end

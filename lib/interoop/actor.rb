@@ -111,6 +111,10 @@ class Interoop
       CommunicationNeed.new(:subject => self, :actors => actors)
     end
     
+    def knows_address_to(actor)
+      self.known_addresses << actor.identifier unless known_addresses.include?(actor.identifier)
+    end
+    
     protected
     
     def find_highest_correctness(path, language)
