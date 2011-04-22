@@ -1,6 +1,6 @@
-require 'interoop/abstract_actor'
+require 'interoop/ics/abstract_actor'
 
-class Interoop
+class Interoop::Ics
   class MessagePassingSystem < AbstractActor
     attr_accessor :fixed
     attr_accessor :actors, :addressing_language

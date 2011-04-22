@@ -1,4 +1,4 @@
-class Interoop
+class Interoop::Ics
   class CommunicationNeed < Object
     attr_accessor :subject, :actors, :reference_language, :addressing_needs
     

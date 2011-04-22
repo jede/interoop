@@ -1,6 +1,6 @@
 require 'graphviz'
 
-class Interoop
+class Interoop::Ics
   class Graph < GraphViz
     attr_accessor :node_map
     
@@ -13,7 +13,7 @@ class Interoop
       return nil if interoop_node.nil?
       return @node_map[interoop_node] if has_node?(interoop_node)
       
-      /(\w+::)?(?<interoop_class>\w+)/ =~ interoop_node.class.to_s
+      /(\w+::)?(?<interoop_class>\w+)$/ =~ interoop_node.class.to_s
       options[:shape] = :record
       options[:label] = "[[#{interoop_class}]]\n#{interoop_node.to_s}" 
       

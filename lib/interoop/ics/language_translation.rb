@@ -1,4 +1,4 @@
-class Interoop
+class Interoop::Ics
   class LanguageTranslation < Object
     attr_accessor :to, :from, :actor, :correct
     

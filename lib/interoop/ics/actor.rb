@@ -1,13 +1,13 @@
-require 'interoop/abstract_actor'
+require 'interoop/ics/abstract_actor'
 
-class Interoop
+class Interoop::Ics
   class Actor < AbstractActor
     attr_accessor :identifier, :known_addresses
     attr_accessor :communication_needs, :communication_mediums, :language_translations
     
     def initialize(params = {})
       super
-      @identifier ||= Interoop::Address.new
+      @identifier ||= Address.new
       @identifier.actor = self if @identifier
       
       @known_addresses ||= []

@@ -1,4 +1,4 @@
-class Interoop::ChainProxy
+class Interoop::Ics::ChainProxy
   attr_accessor :language, :message_passing_system, :start_actor, :end_actor
   
   def initialize(actor)

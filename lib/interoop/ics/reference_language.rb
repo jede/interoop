@@ -1,4 +1,4 @@
-class Interoop
+class Interoop::Ics
   class ReferenceLanguage < Language
     attr_accessor :communication_needs
     

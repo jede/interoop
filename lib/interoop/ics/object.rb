@@ -1,4 +1,4 @@
-class Interoop
+class Interoop::Ics
   class Object
     attr_accessor :name
     alias_method :to_s, :name
