@@ -17,6 +17,10 @@ class Interoop::Ics
       graph.add_edge(self, @from)
     end
     
+    def attributes
+      {correct: correct}
+    end
+    
     def translates_to(language)
       if language == from
         to
