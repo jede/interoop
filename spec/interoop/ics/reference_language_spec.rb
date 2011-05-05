@@ -1,6 +1,6 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../../ics_spec_helper')
 
-describe Interoop::ReferenceLanguage do
+describe Interoop::Ics::ReferenceLanguage do
   before :each do
     @reference_language = new_reference_language
   end

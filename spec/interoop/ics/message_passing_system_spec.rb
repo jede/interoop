@@ -1,6 +1,6 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../../ics_spec_helper')
 
-describe Interoop::MessagePassingSystem do
+describe Interoop::Ics::MessagePassingSystem do
   before :each do
     @message_passing_system = new_message_passing_system
     @actor = @message_passing_system.actors.first
@@ -35,7 +35,7 @@ describe Interoop::MessagePassingSystem do
   end
   
   it "sets distorts_message, drops_message and is_available to default values" do
-    other_message_passing_system = Interoop::MessagePassingSystem.new
+    other_message_passing_system = Interoop::Ics::MessagePassingSystem.new
     other_message_passing_system.distorts_message.should == 0.0
     other_message_passing_system.drops_message.should == 0.0
     other_message_passing_system.is_available.should == 1.0
@@ -46,7 +46,7 @@ describe Interoop::MessagePassingSystem do
   end
   
   it "is not fixed by default" do
-    Interoop::MessagePassingSystem.new.fixed.should == false
+    Interoop::Ics::MessagePassingSystem.new.fixed.should == false
   end
   
   it "has formats" do
@@ -85,7 +85,7 @@ describe Interoop::MessagePassingSystem do
   describe "graph behaviour" do
      before :each do
        require 'graphviz'
-       @graph = Interoop::Graph.new(:G)
+       @graph = Interoop::Ics::Graph.new(:G)
        
        mock.proxy(@graph).add_node(@message_passing_system).any_times
        

@@ -17,7 +17,7 @@ class Interoop::Ics
     def create_nodes_in(graph)
       unless graph.has_node?(self)
         super
-        graph.add_edge(self, addressing_language) unless fixed || addressing_language.nil?
+        #graph.add_edge(self, addressing_language) unless fixed || addressing_language.nil?
       end
     end
     

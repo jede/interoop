@@ -1,6 +1,6 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../../ics_spec_helper')
 
-describe Interoop::Actor do
+describe Interoop::Ics::Actor do
   before :each do
     @actor = new_actor
   end
@@ -12,7 +12,7 @@ describe Interoop::Actor do
   end
   
   it "sets distorts_message, drops_message and is_available to default values" do
-    other_actor = Interoop::Actor.new
+    other_actor = Interoop::Ics::Actor.new
     other_actor.distorts_message.should == 0.0
     other_actor.drops_message.should == 0.0
     other_actor.is_available.should == 1.0
@@ -86,7 +86,7 @@ describe Interoop::Actor do
 
   describe "graphing" do
     before :each do
-      @graph = Interoop::Graph.new(:G)
+      @graph = Interoop::Ics::Graph.new(:G)
     end
     
     describe "with mock" do
@@ -94,8 +94,9 @@ describe Interoop::Actor do
         
         mock.proxy(@graph).add_node(@actor).any_times
         
-        mock.proxy(@graph).add_node(@actor.identifier).any_times
-        mock.proxy(@graph).add_edge(@actor, @actor.identifier)
+        # don't wnt this right now
+        # mock.proxy(@graph).add_node(@actor.identifier).any_times
+        # mock.proxy(@graph).add_edge(@actor, @actor.identifier)
         
         @actor.formats.each do |lang|
           mock.proxy(@graph).add_node(lang).any_times

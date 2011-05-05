@@ -1,6 +1,6 @@
 class Interoop::Ics
   class CommunicationNeed < Object
-    attr_accessor :subject, :actors, :reference_language, :addressing_needs
+    attr_accessor :id, :subject, :actors, :reference_language, :addressing_needs
     
     def to_s
       unless name
@@ -17,6 +17,37 @@ class Interoop::Ics
       super
       @addressing_needs ||= []
       update_actors!
+      self.id = self.class.generate_id(name)
+    end
+    
+    def update(options)
+      self.actors += options[:actors]
+      update_actors!
+      self
+    end
+    
+    def self.find_or_build(options)
+      if id = options[:id] || generate_id(options[:name])
+        @instances ||= {}
+        if @instances[id] 
+          @instances[id].update(options)
+        else
+          @instances[id] = self.new(options)
+        end
+      else
+        self.new(options)
+      end
+    end
+    
+    def satisfied
+      all_of [
+        path_exists,
+        path_available,
+        (1 - drops_message),
+        (1 - syntactic_distortion),
+        semantically_correct,
+        language_success
+      ]
     end
     
     def path_exists
@@ -37,6 +68,10 @@ class Interoop::Ics
       one_of actors.map { |a| subject.distorts_message_to(a) }
     end
     
+    def language_success
+      one_of [language_chain_exists, common_language_exists]
+    end
+    
     def common_language_exists
       all_of actors.map{|a| subject.common_languages_with(a).empty? ? 0.0 : 1.0}
     end
@@ -51,6 +86,7 @@ class Interoop::Ics
     
     def attributes
       {
+        satisfied: satisfied,
         path_exists: path_exists,
         path_available: path_available,
         drops_message: drops_message,
@@ -67,9 +103,13 @@ class Interoop::Ics
     
     protected
     
+    def self.generate_id(name)
+      name.downcase.gsub(/[^a-z0-9]+/,'_').to_sym unless name.nil? || name.empty?
+    end
+    
     def update_actors!
-      subject.communication_needs << self
-      actors.each {|actor| actor.communication_needs << self}
+      subject.communication_needs << self  unless subject.communication_needs.include?(self)
+      actors.each {|actor| actor.communication_needs << self unless actor.communication_needs.include?(self)}
     end
   end
 end

@@ -39,9 +39,9 @@ class Interoop::Ics
     def create_nodes_in(graph)
       graph.add_node(self)
       
-      formats.each do |language|
-        graph.add_edge(self, language)
-      end
+      # formats.each do |language|
+      #   graph.add_edge(self, language)
+      # end
     end
   end
 end

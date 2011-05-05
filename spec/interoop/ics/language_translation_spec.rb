@@ -1,6 +1,6 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../../ics_spec_helper')
 
-describe Interoop::LanguageTranslation do
+describe Interoop::Ics::LanguageTranslation do
   before :each do
     @actor = new_actor
     @language_translation = new_language_translation(:actor => @actor)

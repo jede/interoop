@@ -1,10 +1,35 @@
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../../ics_spec_helper')
 
-describe Interoop::CommunicationNeed do
+describe Interoop::Ics::CommunicationNeed do
   before :each do
     @actor_a = new_actor
     @actor_b = new_actor
     @communication_need = new_communication_need(@actor_a, @actor_b)
+  end
+  
+  describe "find or build" do
+    it "can find or create instances" do
+      com_need = Interoop::Ics::CommunicationNeed.find_or_build(id: :test, subject: @actor_a, :actors => [@actor_b])
+      com_need.should be_a(Interoop::Ics::CommunicationNeed)
+      Interoop::Ics::CommunicationNeed.find_or_build(id: :test, subject: @actor_a, :actors => [@actor_b]).should eql(com_need)
+      Interoop::Ics::CommunicationNeed.find_or_build(subject: @actor_a, :actors => [@actor_b]).should_not eql(com_need)
+    end
+
+    it "merges actors" do
+      @actor_c = new_actor
+      com_need = Interoop::Ics::CommunicationNeed.find_or_build(id: :test, subject: @actor_a, :actors => [@actor_b])
+      com_need = Interoop::Ics::CommunicationNeed.find_or_build(id: :test, subject: @actor_a, :actors => [@actor_c])
+      com_need.actors.should include(@actor_b)
+      com_need.actors.should include(@actor_c)
+    end
+    
+    it "can convert names to ids" do
+      com_need = Interoop::Ics::CommunicationNeed.find_or_build(name: "Test", subject: @actor_a, :actors => [@actor_b])
+      com_need.should be_a(Interoop::Ics::CommunicationNeed)
+      Interoop::Ics::CommunicationNeed.find_or_build(name: "Test", subject: @actor_a, :actors => [@actor_b]).should eql(com_need)
+      Interoop::Ics::CommunicationNeed.find_or_build(subject: @actor_a, :actors => [@actor_b]).should_not eql(com_need)
+      
+    end
   end
   
   it "can be created between actors" do
@@ -12,8 +37,8 @@ describe Interoop::CommunicationNeed do
   end
   
   it "updates the actors of the communication need" do
-    @actor_a.communication_needs.last.class.should eql(Interoop::CommunicationNeed)
-    @actor_b.communication_needs.last.class.should eql(Interoop::CommunicationNeed)
+    @actor_a.communication_needs.last.class.should eql(Interoop::Ics::CommunicationNeed)
+    @actor_b.communication_needs.last.class.should eql(Interoop::Ics::CommunicationNeed)
   end
   
   it "has a reference language" do
@@ -31,7 +56,7 @@ describe Interoop::CommunicationNeed do
   end
   
   it "creates nodes in a graph" do
-    @graph = Interoop::Graph.new(:G)
+    @graph = Interoop::Ics::Graph.new(:G)
     
     mock(@graph).add_node(@communication_need.reference_language).any_times
     mock(@graph).add_node(@communication_need).any_times

@@ -19,8 +19,8 @@ class Interoop::Ics
     
     def create_nodes_in(graph)
       super
-      graph.add_edge(self, identifier)
-      create_nodes_for_relations(graph, :communication_needs, :communication_mediums, :language_translations, :known_addresses)
+      #graph.add_edge(self, identifier)
+      create_nodes_for_relations(graph, :communication_needs, :communication_mediums, :known_addresses) #:language_translations
     end
     
     def neighbors
@@ -106,9 +106,9 @@ class Interoop::Ics
       proxy
     end
     
-    def needs_to_communicate_with(actor_or_actors)
+    def needs_to_communicate_with(actor_or_actors, options = {})
       actors = actor_or_actors.is_a?(Array) ? actor_or_actors : [actor_or_actors]
-      CommunicationNeed.new(:subject => self, :actors => actors)
+      CommunicationNeed.find_or_build(options.merge(:subject => self, :actors => actors))
     end
     
     def knows_address_to(actor)
