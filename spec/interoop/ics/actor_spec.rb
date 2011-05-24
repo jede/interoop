@@ -98,10 +98,10 @@ describe Interoop::Ics::Actor do
         # mock.proxy(@graph).add_node(@actor.identifier).any_times
         # mock.proxy(@graph).add_edge(@actor, @actor.identifier)
         
-        @actor.formats.each do |lang|
-          mock.proxy(@graph).add_node(lang).any_times
-          mock.proxy(@graph).add_edge(@actor, lang)
-        end
+        # @actor.formats.each do |lang|
+        #   mock.proxy(@graph).add_node(lang).any_times
+        #   mock.proxy(@graph).add_edge(@actor, lang)
+        # end
       end
       
       it "creates nodes in a graph" do
@@ -129,8 +129,8 @@ describe Interoop::Ics::Actor do
       it "creates nodes for its language translations" do
         language_translation = new_language_translation(:actor => @actor)
         
-        mock(language_translation).create_nodes_in(@graph)
-        mock(@graph).add_edge.with_any_args
+#        mock(language_translation).create_nodes_in(@graph)
+#        mock(@graph).add_edge.with_any_args
   
         @actor.create_nodes_in(@graph)
       end

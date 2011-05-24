@@ -1,5 +1,5 @@
 class Interoop::Ics
-  class AbstractActor < Object
+  class AbstractActor < Interoop::Entity
     attr_accessor :distorts_message, :drops_message, :is_available, :formats
     
     def initialize(params = {})

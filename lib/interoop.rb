@@ -1,4 +1,12 @@
+require 'interoop/entity'
+require 'interoop/graph'
+
 class Interoop
+  
+  def self.framework_class
+    @framework_class
+  end
+  
   def self.load_framework(f)
     require "interoop/#{f}"
     @framework_class = eval(f.capitalize)

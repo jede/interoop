@@ -1,5 +1,5 @@
 class Interoop::Ics
-  class CommunicationNeed < Object
+  class CommunicationNeed < Interoop::Entity
     attr_accessor :id, :subject, :actors, :reference_language, :addressing_needs
     
     def to_s

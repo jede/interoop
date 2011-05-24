@@ -1,6 +1,6 @@
 require 'graphviz'
 
-class Interoop::Ics
+class Interoop
   class Graph < GraphViz
     attr_accessor :node_map
     

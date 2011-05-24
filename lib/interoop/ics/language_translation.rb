@@ -1,5 +1,5 @@
 class Interoop::Ics
-  class LanguageTranslation < Object
+  class LanguageTranslation < Interoop::Entity
     attr_accessor :to, :from, :actor, :correct
     
     def to_s

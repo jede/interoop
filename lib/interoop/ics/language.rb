@@ -1,5 +1,5 @@
 class Interoop::Ics
-  class Language < Object
+  class Language < Interoop::Entity
 
   end
 end

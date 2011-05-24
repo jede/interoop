@@ -89,13 +89,13 @@ describe Interoop::Ics::MessagePassingSystem do
        
        mock.proxy(@graph).add_node(@message_passing_system).any_times
        
-       mock.proxy(@graph).add_node(@message_passing_system.addressing_language)
-       mock.proxy(@graph).add_edge(@message_passing_system, @message_passing_system.addressing_language)
-       
-       @message_passing_system.formats.each do |lang|
-         mock.proxy(@graph).add_node(lang)
-         mock.proxy(@graph).add_edge(@message_passing_system, lang)
-       end
+       # mock.proxy(@graph).add_node(@message_passing_system.addressing_language)
+       # mock.proxy(@graph).add_edge(@message_passing_system, @message_passing_system.addressing_language)
+       # 
+       # @message_passing_system.formats.each do |lang|
+       #   mock.proxy(@graph).add_node(lang)
+       #   mock.proxy(@graph).add_edge(@message_passing_system, lang)
+       # end
      end
 
      it "creates nodes in a graph" do

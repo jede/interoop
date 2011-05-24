@@ -1,5 +1,5 @@
-class Interoop::Ics
-  class Object
+class Interoop
+  class Entity
     attr_accessor :name
     alias_method :to_s, :name
     

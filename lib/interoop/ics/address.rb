@@ -1,5 +1,5 @@
 class Interoop::Ics
-  class Address < Object
+  class Address < Interoop::Entity
     attr_accessor :actor
     
     def to_s
