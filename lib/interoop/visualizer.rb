@@ -14,10 +14,10 @@ class Interoop
     def visualize!
       graph = generate_graph(@visualize_actors)
     
-      graph.output( :pdf => "#{name}.pdf" )
+      graph.output( :ps2 => "#{name}.ps" )
       graph.output( :dot => "#{name}.dot" )
     
-      exec "open #{name}.pdf"
+      exec "open #{name}.ps"
     end
     
     def generate_graph(actors)

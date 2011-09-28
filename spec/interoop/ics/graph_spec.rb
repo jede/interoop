@@ -1,8 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../ics_spec_helper')
 
-describe Interoop::Ics::Graph do
+describe Interoop::Graph do
   before :each do
-    @graph = Interoop::Ics::Graph.new(:G)
+    @graph = Interoop::Graph.new(:G)
   end
   
   it "cannot add nil" do
